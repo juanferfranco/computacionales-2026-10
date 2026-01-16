@@ -2,3 +2,266 @@
 title: Unidad 1
 unitId: unit1
 ---
+import { Aside } from '@astrojs/starlight/components';
+
+## Introducción 📜
+
+El objetivo de esta unidad es que puedas comprender la arquitectura de un computador digital 
+moderno. Para ello usaremos como caso de estudio un computador simple, pero didáctico llamado 
+computador Hack. Programarás este computador utilizando su lenguaje ensamblador y desarrollarás 
+programas simples, pero interactivos que harán uso de operaciones de entrada/salida.
+
+## Rúbrica de evaluación de la unidad 📝
+
+:::note[Transparencia]
+Esta rúbrica se socializa antes de la sustentación. La sustentación se 
+basa en lo presentado en la aplicación y lo documentado en la bitácora.
+:::
+
+### Requisito de salida (condición necesaria)
+
+:::caution[Para poder cerrar la evaluación y registrar la nota]
+La **bitácora de reflexión** debe estar diligenciada antes de terminar 
+la sesión y debe ser enseñada al profesor antes de abandonar el aula. La 
+presentación de la bitácora de reflexión es un requisito indispensable 
+para montar la nota final en la plataforma académica. Si no se cumple 
+este requisito, la nota final de la unidad será 0.0.
+:::
+
+---
+
+### Rúbrica analítica
+
+:::tip[Evidencias evaluadas]
+
+1) Funcionamiento de la aplicación + documentación en bitácora.
+2) Sustentación a partir de la app y la bitácora
+
+:::
+
+| Criterio (peso) | Cumple plenamente (5.0) | Se cumple medianamente (4.0)| Problemas importantes (3.0)| Falta comprensión básica (2.0) | No hay evidencia (0.0)
+|---|---|---|---|---|---|
+| **1. Aplicación + bitácora (40%)** | La app se ejecuta sin fallos en el entorno acordado. Evidencia completa y verificable en bitácora. Todo consistente con lo mostrado en la demo. | La app funciona y cumple lo esencial. La bitácora permite verificar, pero hay **1–2 vacíos menores**| La app funciona parcialmente o depende de condiciones no declaradas. Bitácora con **vacíos importantes** o incompleta. | La app no corre o no demuestra lo requerido. La bitácora no permite verificación de la app.| No se entregaron evidencias o no se puede acceder a ellas |
+|Evaluación||||||
+| **2. Sustentación (60%)** | Responde a las preguntas con precisión, conectando: **(a) lo que se ve**, **(b) cómo está hecho**, y **(c) por qué**. Usa su bitácora para justificar decisiones. Reconoce límites/errores y propone cómo probar/mejorar. | Respuestas correctas pero con **imprecisiones menores** o justificación superficial. Usa parcialmente la bitácora para sustentar. | Responde solo “qué hizo” pero le cuesta explicar “cómo” o “por qué”. Necesita guía para conectar con su propia evidencia/bitácora. | No logra responder de forma coherente o responde sin relación con lo presentado/documentado. Evidencia falta de comprensión básica del trabajo entregado. | No se entregaron evidencias o no se puede acceder a ellas |
+|Evaluación||||||
+---
+
+:::tip[Cálculo de la nota]
+
+$$
+Nota = C_1*0.4  + C_2*0.6
+$$
+
+:::
+
+---
+
+## Set: ¿Qué aprenderás en esta unidad? 💡
+
+- Comprender una arquitectura de un computador digital simple.
+- Conocer su lenguaje ensamblador.
+- Desarrollar programas interactivos simples.
+- Manipular la memoria.
+- Realizar operaciones aritmético-lógicas.
+- Controlar el flujo de un programa.
+- Manejar la entrada y salida de datos.
+
+### Actividad 01
+
+En esta actividad vamos a explorar el concepto del ciclo fetch-decode-execute
+
+El siguiente programa está escrito en el lenguaje ensamblador del computador 
+Hack. Este computador no es un computador comercial, sino un computador didáctico 
+que te permitirá acercarte a los conceptos fundamentales de manera amigable.
+
+``` asm
+@1 
+D=A 
+@2 
+D=D+A 
+@16 
+M=D 
+@END
+(END) 
+0;JMP
+```
+
+¿Qué crees que haga este programa? 
+
+Para responder a esta pregunta vamos a analizarlo paso a paso usando un simulador 
+de la CPU Hack que está [aquí](https://nand2tetris.github.io/web-ide/cpu).
+
+Para ejecutar este programa la CPU realiza un **ciclo** constante 
+llamado Fetch-Decode-Execute.
+
+El ciclo Fetch-Decode-Execute describe cómo la CPU ejecuta instrucciones de 
+un programa. Aquí está explicado de forma breve y simple:
+
+Fetch (buscar): la CPU obtiene (lee) la siguiente instrucción desde la memoria. El contador de programa (PC) 
+indica dónde se encuentra esa instrucción en la memoria ROM.
+
+Decode (decodificar): la CPU interpreta la instrucción que acaba de leer. Esto significa entender qué 
+operación debe realizarse y qué datos o recursos necesita.
+
+Execute (ejecutar): la CPU realiza la operación indicada. Por ejemplo, puede ser una operación matemática, 
+mover datos entre registros, o acceder a la memoria.
+
+Este ciclo se repite continuamente mientras la computadora esté encendida, procesando instrucciones una 
+tras otra. Es la base del funcionamiento de cualquier procesador.
+
+:::note[🧐🧪✍️ Experimento]
+Ahora es tu turno. Crea un archivo llamado `program.asm` y copia el código del programa anterior. 
+Ejecuta el programa en el simulador de la CPU Hack y observa cómo se comporta.
+¿Qué sucede? ¿Qué valor se almacena en la dirección de memoria 16? ¿Por qué crees que es ese valor?
+¿Qué instrucciones se ejecutan en cada ciclo Fetch-Decode-Execute?
+¿Qué cambios observas en el contenido de la memoria y los registros?
+:::
+
+:::note[🧐🧪✍️ Experimento]
+Escribe un programa en lenguaje ensamblador que sume los números 5 y 10, y almacene el 
+resultado en la dirección de memoria 20.
+Utiliza el simulador de la CPU Hack para ejecutar tu programa y verifica que el 
+resultado es correcto.
+:::
+
+:::caution[📤 Bitácora] 
+* Reporta tus observaciones para cada experimento en tu bitácora de aprendizaje.
+* ¿Qué diferencia hay entre los datos almacenados en la memoria ROM y en la RAM?
+:::
+
+## Seek: Investigación 🔎
+
+Una vez has comprendido los conceptos básicos, es hora de profundizar en el funcionamiento 
+del computador Hack y su lenguaje ensamblador.
+
+### Actividad 02
+
+#### Explorando la arquitectura del computador Hack
+
+Ahora vamos a analizar juntos el siguiente programa. Este programa tendrá 
+todos los conceptos que vamos investigar en la siguiente fase de la unidad 
+de manera más profunda. En qué nos enfocaremos:
+
+* Las partes del computador Hack.
+* El modelo de programación de la CPU.
+* La diferencia entre memoria RAM y registros.
+* Los tipos de instrucciones del lenguaje ensamblador.
+* Cómo leo el teclado y muestro en pantalla.
+* Cómo implemento un bucle.
+* Cómo implemento una condición.
+* ¿Qué es la ALU y qué operaciones realiza?
+
+En ["este"](https://www.nand2tetris.org/_files/ugd/44046b_7ef1c00a714c46768f08c459a6cab45a.pdf) 
+enlace está la documentación del computador Hack.
+
+``` asm
+@SCREEN
+D=A
+@i
+M=D
+(READKEYBOARD)
+@KBD
+D=M
+@KEYPRESSED
+D;JNE
+@i
+D=M
+@SCREEN
+D=D-A
+@READKEYBOARD
+D;JLE
+@i
+M=M-1
+A=M
+M=0
+@READKEYBOARD
+0;JMP
+
+(KEYPRESSED)
+@i
+D=M
+@KBD
+D=D-A
+@READKEYBOARD
+D;JGE
+@16
+A=M
+M=-1
+@i
+M=M+1
+@READKEYBOARD
+0;JMP
+```
+
+:::note[🧐🧪✍️ Experimento]
+Ahora experimenta. Crea un archivo llamado `program.asm` y copia el código del 
+programa anterior. Ejecuta paso a paso el programa en el 
+[simulador](https://nand2tetris.github.io/web-ide/cpu) así:
+
+* Carga el programa en el simulador.
+* Antes de ejecutar cada instrucción vas a predecir qué crees que va a suceder. Es muy importante 
+que hagas esto, de esta manera tu mismo puedes saber si estás entendiendo el programa.
+* Luego, ejecuta la instrucción y observa el resultado.
+* Si te equivocas, reflexiona sobre por qué tu predicción no fue correcta.
+:::
+
+:::caution[📤 Bitácora] 
+Reporta en tu bitácora de aprendizaje:
+* Identifica una instrucción que use la ALU y explica qué hace.
+* ¿Para qué sirve el registro PC?
+* ¿Cuál es la diferencia entre @i y @READKEYBOARD?
+* Describe qué se necesita para leer el teclado y mostrar información en la pantalla.
+* Identifica un bucle en el programa y explica su funcionamiento.
+* Identifica una condición en el programa y explica su funcionamiento.
+:::
+
+### Actividad 03
+
+#### Control de flujo con saltos
+
+Vamos a resolver juntos este problema:
+
+Escribe un programa que compare el valor almacenado en la dirección de memoria 5 
+con el valor 10. Si el valor es menor que 10, guarda el valor 1 en la dirección 7. 
+Si el valor es mayor o igual a 10, guarda el valor 0 en la dirección 7.
+
+:::caution[📤 Bitácora] 
+* Escribe tu mismo el programa.
+* Simula paso a paso. Recuerda la metodología: predice, ejecuta, observa y reflexiona.
+:::
+
+## Apply: Aplicación 🛠
+
+### Actividad 04
+
+#### Implementando un ciclo simple
+
+Crea un programa que **use un ciclo** para sumar los números del 1 al 5 
+y guarde el resultado en la dirección de memoria 12.
+
+:::caution[📤 Bitácora] 
+* Escribe el programa.
+* Simula paso a paso. Recuerda la metodología: predice, ejecuta, observa y reflexiona.
+:::
+
+## Reflect: Consolidación y metacognición 🤔
+
+### Actividad 05
+
+:::caution[📤 Bitácora] 
+
+**Sin consultar tus apuntes**, el simulador o cualquier otro material, responde con tus propias 
+palabras a las siguientes preguntas. ¡No te preocupes por la perfección! El objetivo es ver 
+qué recuerdas ahora mismo.
+
+1.  Describe con tus palabras las tres fases del ciclo Fetch-Decode-Execute. 
+¿Qué rol juega el Program Counter (PC) en este ciclo?
+2.  ¿Cuál es la diferencia fundamental entre una instrucción-A (que empieza con `@`) y una 
+instrucción-C (que involucra `D`, `M`, `A`, etc.) en el lenguaje ensamblador de Hack? 
+Da un ejemplo de cada una.
+3.  Explica la función de los siguientes componentes del computador Hack: el registro D, el registro A y la ALU.
+4.  ¿Cómo se implementa un salto condicional en Hack? Describe un ejemplo (p. ej., saltar si el valor de D es mayor que cero).
+5.  ¿Cómo se implementa un loop en el computador Hack? Describe un ejemplo (p. ej., un loop que decremente un valor hasta que llegue a cero).
+6.  ¿Cuál es la diferencia entre la instrucción `D=M` y la instrucción `M=D`?
+7.  Describe brevemente qué se necesita para leer un valor del teclado (`KBD`) y para "pintar" un pixel en la pantalla (`SCREEN`).
