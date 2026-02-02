@@ -114,7 +114,8 @@ programa no tiene que verificar si la línea se sale de la pantalla.
 En tu bitácora:
 
 * Escribe el programa.
-* Simula paso a paso en lenguaje ensamblador. Recuerda la metodología: predice, ejecuta, observa y reflexiona.
+* Simula paso a paso en lenguaje ensamblador. Recuerda la metodología: predice, 
+ejecuta, observa y reflexiona.
 :::
 
 
@@ -136,8 +137,8 @@ En tu bitácora:
     i++;
  }
  ```
-
-Una traducción a ensamblador es como sigue: 
+<details>
+<summary>Una posible traducción a ensamblador</summary>
 
 ``` asm
 // Adds1+...+100.
@@ -164,6 +165,7 @@ Una traducción a ensamblador es como sigue:
  @END
  0;JMP // Infinite loop
 ```
+</details>
 
 Vamos a transformar este programa a su equivalente usando un ciclo for:
 
@@ -174,16 +176,17 @@ for(int i = 1; i <=100; i++){
     sum+= i;
 }
  ```
+
 :::caution[📤 Bitácora] 
 Simula el programa en ensamblador paso a paso. Recuerda la metodología: predice, ejecuta, observa y reflexiona.
 :::
-
 
 ### Actividad 05
 
 ##### Punteros
 
-Un puntero es una variable que almacena la dirección de memoria de otra variable. Observa el siguiente programa escrito en C++:
+Un puntero es una variable que almacena la dirección de memoria de otra variable. 
+Observa el siguiente programa escrito en C++:
 
 ``` cpp
 int a = 10;
@@ -192,8 +195,9 @@ p = &a;
 *p = 20;
 ```
 
-El programa anterior modifica el contenido de la variable **a** por medio de la variable **p**. **p** es un puntero 
-porque almacena la dirección de memoria de la variable **a**. En este caso el valor de la variable **a** será 20 luego de ejecutar *p = 20;. 
+El programa anterior modifica el contenido de la variable **a** por medio de la 
+variable **p**. **p** es un puntero porque almacena la dirección de memoria de la 
+variable **a**. En este caso el valor de la variable **a** será 20 luego de ejecutar *p = 20;. 
 
 Ahora analiza con detenimiento:
 
@@ -203,7 +207,8 @@ Ahora analiza con detenimiento:
 int* p;
 ```
 
-**p** es una variable que almacenará la dirección de otra variable. Dicha variable almacenará número enteros.
+**p** es una variable que almacenará la dirección de otra variable. Dicha variable 
+almacenará número enteros.
 
 - ¿Cómo se **define** (nota que antes preguntamos cómo se **declara**) un puntero en C++? 
 
@@ -211,7 +216,8 @@ int* p;
 p = &a;. 
 ```
 
-Definir el puntero es **inicializar** el valor del puntero, es decir, guardar la dirección de una variable. En este caso p contendrá la dirección de a o podemos decir que p apunta a **a**
+Definir el puntero es **inicializar** el valor del puntero, es decir, guardar la dirección 
+de una variable. En este caso p contendrá la dirección de a o podemos decir que p apunta a **a**
 
 - ¿Cómo se almacena en C++ la dirección de memoria de una variable? Con el operador **&**. 
 
@@ -278,7 +284,7 @@ Considera el siguiente programa
 
 ``` cpp
 
-int arr[] = {1,2,3,4,5,6,7,8,9,10};
+int arr[] = {-1,20,13,24,55,96,-87,83,98,-102};
 int sum = 0;
 
 for (int j = 0; j < 10; j++) {
@@ -296,7 +302,6 @@ el arreglo en lenguaje ensamblador.
 a implementar con cada prueba y cómo la probaste.
 - Muestra el programa final y cómo lo probaste. 
 :::
-
 
 ### Actividad 06
 
@@ -320,14 +325,85 @@ int main()
 	std::cout << "The sum: " << result << std::endl;
 }
 ```
+<details>
+<summary>Hack code</summary>
 
-Hack code:
+```asm
+(start)
 
-``` asm
-// This program computes sum(3,4) and stores the result in 'result'.
+//int result = 0;
+
+@result
+M=0
+
+/*
+int main()
+{
+	result = sum(3, 4);
+	std::cout << "The sum: " << result << std::endl;
+}
+*/
+
+// Load sum arguments
+@3
+D=A
+@R0
+M=D
+@4
+D=A
+@R1
+M=D
+
+// Save return address
+@returnFromSum
+D=A
+@R15
+M=D
+
+// call sum
+@sum
+0;JMP
+
+// return after sum
+// and store result
+(returnFromSum)
+@R0
+D=M
+@result
+M=D
+
+@fin
+(fin)
+0;JMP
+
+/*
+int sum(int a, int b)
+{
+    return a + b;
+}
+*/
+
+(sum)
+@R0
+D=M
+@R1
+D=D+M
+@R0
+M=D
+@R15
+A=M
+0;JMP
+```
+</details>
 
 
 ## Apply: Aplicación 🛠
+
+### Actividad XX
+
+:::caution[📤 Bitácora]
+
+:::
 
 ## Reflect: Consolidación y metacognición 🤔
 
