@@ -81,7 +81,7 @@ un punto negro en la esquina superior izquierda de la pantalla. (Recuerda que la
 corresponde al primer bit del primer word en la dirección SCREEN).
 
 :::caution[📤 Bitácora] 
-En tu bitácora: 
+En tu bitácora de proceso de aprendizaje:
 * Escribe el programa.
 * Simula paso a paso el programa en ensamblador. Recuerda la metodología: predice, ejecuta, observa y reflexiona.
 :::
@@ -96,7 +96,7 @@ Modifica el programa anterior para que dibuje una línea horizontal negra de 16 
 (Recuerda que cada word en la memoria representa 16 pixeles).
 
 :::caution[📤 Bitácora] 
-En tu bitácora:
+En tu bitácora de proceso de aprendizaje:
 
 * Escribe el programa.
 * Simula paso a paso el programa ensamblador. Recuerda la metodología: predice, ejecuta, observa y reflexiona.
@@ -111,7 +111,7 @@ horizontal de derecha a izquierda usando las teclas **d** y **i** respectivament
 programa no tiene que verificar si la línea se sale de la pantalla.
 
 :::caution[📤 Bitácora] 
-En tu bitácora:
+En tu bitácora de proceso de aprendizaje:
 
 * Escribe el programa.
 * Simula paso a paso en lenguaje ensamblador. Recuerda la metodología: predice, 
@@ -255,6 +255,8 @@ el código anterior hace que el valor de b cambie de 5 a 10 porque p apunta a **
 
 
 :::caution[📤 Bitácora]
+En tu bitácora de proceso de aprendizaje:
+
 Convierte estos programas a ensamblador y realiza la simulación paso a paso.
 Recuerda la metodología: predice, ejecuta, observa y reflexiona.
 
@@ -294,6 +296,8 @@ for (int j = 0; j < 10; j++) {
 ```
 
 :::caution[📤 Bitácora]
+En tu bitácora de proceso de aprendizaje:
+
 - Implementa el programa anterior en lenguaje ensamblador aplicando el concepto de punteros.  
 - Considera que los datos del arreglo están almacenados **desde** la dirección 16. Inicializa 
 el arreglo en lenguaje ensamblador.  
@@ -399,17 +403,99 @@ A=M
 
 ## Apply: Aplicación 🛠
 
-### Actividad XX
+### Actividad 08
+
+En este puntos ya has aprendido a manipular direcciones de memoria 
+por medio de punteros, a usar arreglos y a implementar funciones en lenguaje ensamblador.
+
+En esta actividad de aplicación te pediré que integres todo lo que sabes.
+
+Vas a resolver dos problemas de traducción de C++ a ensamblador. Ten presente 
+que en ambos casos la expresión `std::cout` no la vas a implementar en ensamblador. 
+Esta expresión solo está para que entiendas el flujo del programa en C++.
+
+El protocolo de llamado a función será: los argumentos de una función se pasan 
+en los registros R0, R1, R2, etc. El valor de retorno se pasa en R0. La dirección 
+de retorno se guarda en R15. Si necesitas variables temporales adicionales, puedes
+usarlas en R13 y R14.
+
+Problema 1:
+
+```cpp
+#include <iostream>
+
+void swap(int* pa, int* pb){
+    int tmp = *pa;
+    *pa = *pb;
+    *pb = tmp; 
+}
+
+int main()
+{
+    int a = 10;
+    int b = 20;
+    std::cout<<"a: " << a <<" b: "<< b<< std::endl;
+    swap(&a,&b);
+    std::cout<<"a: " << a <<" b: "<< b<< std::endl;
+    return 0;
+}
+```
+
+Problema 2:
+
+```cpp
+#include <iostream>
+
+int calSum(int* parr,int arrSize){
+    int sum = 0;
+    for(int i= 0; i < arrSize;i++){
+        sum = sum + *(parr+i);
+    }
+    return sum;
+}
+
+int main()
+{
+    int arr[] = {10,15,2,-3,50};
+    int sum = calSum(arr,5);
+    std::cout<<"Sum: " << sum << std::endl;
+    return 0;
+}
+```
 
 :::caution[📤 Bitácora]
+En tu bitácora de aplicación:
 
+- Implementa ambos programas en lenguaje ensamblador.
+- Capturas de pantalla donde muestres una parte de la simulación y expliques 
+qué se ve esa captura.
+- Captura de pantalla del simulador mostrando el resultado final correcto.
 :::
 
 ## Reflect: Consolidación y metacognición 🤔
 
-### Actividad XX
+### Actividad 09
+
+En esta actividad de reflexión te voy a pedir que consolides lo aprendido en 
+estas dos unidades que llevamos del curso mediante un RETO final. Se trata de 
+implementar un programa en lenguaje ensamblador que DIBUJE un mapa de bits 
+en la pantalla del computador Hack. 
+
+Para realizar tu diseño o el dibujar el mapa de bits usarás la herramienta 
+[Bitmap Editor](https://nand2tetris.github.io/web-ide/bitmap). Esta herramienta 
+te permitirá generar el código en lenguaje ensamblador. El código generado 
+será una función, que dibujará tu diseño y que deberás llamar desde el programa 
+principal. El programa principal deberá leer las teclas **d** y **e** que 
+usará para dibujar y borrar respectivamente el mapa de bits. 
 
 :::caution[📤 Bitácora]
-
+En tu bitácora de reflexión:
+- Muestra el diseño que hiciste en Bitmap Editor.
+- Incluye el código en ensamblador generado por Bitmap Editor.
+- Incluye el programa completo en ensamblador que llama a la función
+generada por Bitmap Editor y que lee las teclas **d** y **e** para
+dibujar y borrar respectivamente el mapa de bits.
+- Construye tu programa PASO A PASO mediante pruebas utilizando el simulador.
+- Incluye capturas de pantalla donde muestres el resultado final de la aplicación
 :::
 
