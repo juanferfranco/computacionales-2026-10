@@ -2,3 +2,832 @@
 title: Unidad 4
 unitId: unit4
 ---
+import { Aside } from '@astrojs/starlight/components';
+
+## Introducción 📜
+
+En la unidad anterior exploraste el manejo de la memoria en C++: stack, heap, punteros, 
+referencias, ciclo de vida de objetos y la diferencia entre C++ y C#. En esta unidad 
+vas a explorar las **estructuras de datos** fundamentales en C++ y cómo se organizan 
+en memoria. Trabajarás con arreglos estáticos, arreglos dinámicos, vectores de la 
+biblioteca estándar y estructuras lineales como listas enlazadas.
+
+El objetivo no es memorizar APIs, sino **entender qué ocurre en memoria** cuando 
+usas estas estructuras. ¿Dónde están los datos? ¿Cómo crecen? ¿Qué pasa cuando 
+copias una estructura? ¿Qué errores introduce una IA generativa cuando trabaja con 
+estas estructuras? Estas son las preguntas que guiarán tu investigación.
+
+Es muy importante que dediques tiempo de calidad a cada una de las actividades, experimenta con los códigos, 
+modifica, prueba, equivócate, aprende de tus errores. Te pediré que lances hipótesis 
+acerca de lo que está ocurriendo, que observes, analices y reflexiones sobre los resultados. Este es un proceso 
+de Investigación en acción en el que aprenderás a través de la experimentación y la reflexión.
+
+## Rúbrica de evaluación de la unidad 📝
+
+:::note[Transparencia]
+Esta rúbrica se socializa antes de la sustentación. La sustentación se 
+basa en lo presentado en la aplicación y lo documentado en la bitácora.
+:::
+
+### Requisito de salida (condición necesaria)
+
+:::caution[Para poder cerrar la evaluación y registrar la nota]
+La **bitácora de reflexión** debe estar diligenciada antes de terminar 
+la sesión y debe ser enseñada al profesor antes de abandonar el aula. La 
+presentación de la bitácora de reflexión es un requisito indispensable 
+para montar la nota final en la plataforma académica. Si no se cumple 
+este requisito, la nota final de la unidad será 0.0.
+:::
+
+---
+
+### Rúbrica analítica
+
+:::tip[Evidencias evaluadas]
+
+1) Funcionamiento de la aplicación + documentación en bitácora.
+2) Sustentación a partir de la app y la bitácora
+
+:::
+
+| Criterio (peso) | Cumple plenamente (5.0) | Se cumple medianamente (4.0)| Problemas importantes (3.0)| Falta comprensión básica (2.0) | No hay evidencia (0.0)
+|---|---|---|---|---|---|
+| **1. Aplicación + bitácora (40%)** | La app se ejecuta sin fallos en el entorno acordado. Evidencia completa y verificable en bitácora. Todo consistente con lo mostrado en la demo. | La app funciona y cumple lo esencial. La bitácora permite verificar, pero hay **1–2 vacíos menores**| La app funciona parcialmente o depende de condiciones no declaradas. Bitácora con **vacíos importantes** o incompleta. | La app no corre o no demuestra lo requerido. La bitácora no permite verificación de la app.| No se entregaron evidencias o no se puede acceder a ellas |
+|Evaluación||||||
+| **2. Sustentación (60%)** | Responde a las preguntas con precisión, conectando: **(a) lo que se ve**, **(b) cómo está hecho**, y **(c) por qué**. Usa su bitácora para justificar decisiones. Reconoce límites/errores y propone cómo probar/mejorar. | Respuestas correctas pero con **imprecisiones menores** o justificación superficial. Usa parcialmente la bitácora para sustentar. | Responde solo "qué hizo" pero le cuesta explicar "cómo" o "por qué". Necesita guía para conectar con su propia evidencia/bitácora. | No logra responder de forma coherente o responde sin relación con lo presentado/documentado. Evidencia falta de comprensión básica del trabajo entregado. | No se entregaron evidencias o no se puede acceder a ellas |
+|Evaluación||||||
+---
+
+:::tip[Cálculo de la nota]
+
+$$
+Nota = C_1*0.4  + C_2*0.6
+$$
+
+:::
+
+---
+
+## Set + Seek (parte 1) 💡🔎
+
+En esta primera sesión exploraremos las estructuras de datos más básicas: arreglos estáticos 
+y arreglos dinámicos. El objetivo es que entiendas **dónde viven en memoria** y cómo su 
+gestión se relaciona con lo que aprendiste en la unidad anterior.
+
+### Actividad 01
+
+#### Arreglos estáticos en el stack: layout en memoria
+
+Vamos a comenzar explorando cómo un arreglo estático se organiza en memoria.
+
+Crea un nuevo proyecto de consola en C++ en Visual Studio y escribe el siguiente código:
+
+```cpp
+#include <iostream>
+using namespace std;
+
+int main() {
+    int notas[5] = {85, 92, 78, 95, 88};
+
+    cout << "Tamaño total del arreglo en bytes: " << sizeof(notas) << endl;
+    cout << "Tamaño de un elemento: " << sizeof(notas[0]) << endl;
+    cout << "Número de elementos: " << sizeof(notas) / sizeof(notas[0]) << endl;
+
+    cout << "\nDirecciones de memoria de cada elemento:" << endl;
+    for (int i = 0; i < 5; i++) {
+        cout << "notas[" << i << "] = " << notas[i]
+             << " en dirección: " << &notas[i] << endl;
+    }
+
+    // Acceso usando aritmética de punteros
+    int* p = notas; // el nombre del arreglo es un puntero al primer elemento
+    cout << "\nAcceso con aritmética de punteros:" << endl;
+    for (int i = 0; i < 5; i++) {
+        cout << "*(p + " << i << ") = " << *(p + i)
+             << " en dirección: " << (p + i) << endl;
+    }
+
+    return 0;
+}
+```
+
+Ejecuta el programa y observa la salida.
+Coloca un breakpoint en la línea donde se declara notas y ejecuta paso a paso (F10).
+Abre la ventana de memoria (Debug → Windows → Memory → Memory 1) y escribe &notas[0]
+para ver el contenido en memoria.
+Responde estas preguntas:
+
+¿Cuántos bytes de diferencia hay entre la dirección de notas[0] y notas[1]? ¿Por qué?
+¿En qué segmento de memoria se encuentra el arreglo notas? ¿Por qué?
+¿Qué relación observas entre el nombre del arreglo (notas) y un puntero?
+Si la dirección de notas[0] fuera 0x00F0, ¿Cuál sería la dirección de notas[3]? Calcula
+antes de verificar con el depurador.
+:::caution[📤 Bitácora]
+En tu bitácora de aprendizaje ve respondiendo las preguntas que te voy haciendo a lo largo de la actividad,
+así como tus propias reflexiones, dudas, hipótesis, análisis y conclusiones.
+:::
+
+### Actividad 02
+Arreglos dinámicos en el heap
+Ahora compararemos un arreglo en el stack con uno creado dinámicamente en el heap.
+
+```cpp
+
+#include <iostream>
+using namespace std;
+
+int main() {
+    // Arreglo en el stack
+    int stackArr[3] = {10, 20, 30};
+
+    // Arreglo en el heap
+    int tam = 3;
+    int* heapArr = new int[tam];
+    heapArr[0] = 100;
+    heapArr[1] = 200;
+    heapArr[2] = 300;
+
+    cout << "--- Arreglo en el stack ---" << endl;
+    cout << "Dirección de stackArr (variable): " << &stackArr << endl;
+    for (int i = 0; i < 3; i++) {
+        cout << "stackArr[" << i << "] = " << stackArr[i]
+             << " en: " << &stackArr[i] << endl;
+    }
+
+    cout << "\n--- Arreglo en el heap ---" << endl;
+    cout << "Dirección de heapArr (puntero en stack): " << &heapArr << endl;
+    cout << "Dirección a la que apunta heapArr (datos en heap): " << heapArr << endl;
+    for (int i = 0; i < 3; i++) {
+        cout << "heapArr[" << i << "] = " << heapArr[i]
+             << " en: " << &heapArr[i] << endl;
+    }
+
+    delete[] heapArr;
+    return 0;
+}
+
+```
+
+Predicción: antes de ejecutar, dibuja un diagrama de memoria mostrando dónde
+esperas que esté cada variable y cada dato.
+Ejecuta paso a paso con el depurador. Abre Memory 1 y compara las direcciones
+de stackArr y heapArr.
+Responde estas preguntas:
+
+¿Cuál es la diferencia fundamental entre stackArr y heapArr en cuanto a la ubicación de los datos?
+heapArr es una variable que vive en el stack. ¿Qué almacena esa variable?
+¿Qué ocurriría si olvidas escribir delete[] heapArr;? ¿Cómo se llama ese problema?
+¿Puedes cambiar el tamaño de stackArr después de crearlo? ¿Y el de heapArr? ¿Por qué?
+:::caution[📤 Bitácora]
+En tu bitácora de aprendizaje ve respondiendo las preguntas que te voy haciendo a lo largo de la actividad,
+así como tus propias reflexiones, dudas, hipótesis, análisis y conclusiones.
+:::
+
+### Actividad 03
+Arreglos y funciones: ¿qué se pasa realmente?
+Ahora exploraremos qué sucede cuando pasas un arreglo a una función.
+
+
+```cpp
+
+#include <iostream>
+using namespace std;
+
+void duplicarValores(int arr[], int tam) {
+    cout << "Dentro de la función:" << endl;
+    cout << "sizeof(arr) = " << sizeof(arr) << " (¿sorprendido?)" << endl;
+    cout << "Dirección de arr: " << arr << endl;
+
+    for (int i = 0; i < tam; i++) {
+        arr[i] *= 2;
+    }
+}
+
+int main() {
+    int datos[4] = {5, 10, 15, 20};
+
+    cout << "Antes de duplicar:" << endl;
+    cout << "sizeof(datos) = " << sizeof(datos) << endl;
+    cout << "Dirección de datos: " << datos << endl;
+    for (int i = 0; i < 4; i++) {
+        cout << "datos[" << i << "] = " << datos[i] << endl;
+    }
+
+    duplicarValores(datos, 4);
+
+    cout << "\nDespués de duplicar:" << endl;
+    for (int i = 0; i < 4; i++) {
+        cout << "datos[" << i << "] = " << datos[i] << endl;
+    }
+
+    return 0;
+}
+
+```
+
+Predicción: ¿Los valores de datos cambiarán después de llamar a duplicarValores?
+¿Por qué sí o por qué no?
+Ejecuta y verifica.
+Responde estas preguntas:
+
+¿Por qué sizeof(arr) dentro de la función no da el mismo resultado que sizeof(datos) en main?
+¿La dirección de arr dentro de la función es la misma que la de datos en main? ¿Qué significa esto?
+¿Cuando pasas un arreglo a una función, se pasa por valor o por referencia? Justifica tu respuesta
+con las evidencias del depurador.
+Conecta esto con lo que aprendiste en la Unidad 3 sobre paso por valor, referencia y puntero.
+¿Pasar un arreglo se parece más a cuál de esos mecanismos?
+
+:::caution[📤 Bitácora]
+En tu bitácora de aprendizaje ve respondiendo las preguntas que te voy haciendo a lo largo de la actividad,
+así como tus propias reflexiones, dudas, hipótesis, análisis y conclusiones.
+:::
+
+
+Sesión 2: Seek (parte 2) 🔎
+En esta sesión exploraremos std::vector (la estructura dinámica más usada en C++ moderno),
+las listas enlazadas (para entender la gestión manual de memoria con nodos), y
+realizarás una actividad donde auditarás código generado por IA.
+
+###  Actividad 04
+std::vector: el arreglo dinámico de C++ moderno
+std::vector es la estructura de datos más utilizada en C++ moderno. Internamente
+es un arreglo dinámico que se redimensiona automáticamente. Vamos a explorar cómo
+funciona por dentro.
+
+```cpp
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int main() {
+    vector<int> v;
+
+    cout << "Estado inicial:" << endl;
+    cout << "size: " << v.size() << endl;
+    cout << "capacity: " << v.capacity() << endl;
+    cout << "data (dirección del buffer interno): " << v.data() << endl;
+
+    cout << "\nAgregando elementos uno por uno:" << endl;
+    for (int i = 1; i <= 10; i++) {
+        v.push_back(i * 10);
+        cout << "push_back(" << i * 10 << ") -> size: " << v.size()
+             << ", capacity: " << v.capacity()
+             << ", data: " << v.data() << endl;
+    }
+
+    cout << "\nDirecciones de cada elemento:" << endl;
+    for (int i = 0; i < (int)v.size(); i++) {
+        cout << "v[" << i << "] = " << v[i]
+             << " en: " << &v[i] << endl;
+    }
+
+    return 0;
+}
+
+```
+
+Ejecuta el programa y observa la salida con cuidado.
+
+Responde estas preguntas:
+
+¿Qué diferencia hay entre size y capacity?
+¿En qué momentos cambia la dirección de data? ¿Qué crees que está ocurriendo
+cuando eso sucede?
+Cuando capacity cambia, ¿el vector se queda en la misma dirección de memoria o se
+mueve a otra? ¿Qué implicaciones tiene esto?
+¿En qué segmento de la memoria está la variable v (el objeto vector)? ¿Y en qué
+segmento están los datos (los enteros)?
+Ahora experimenta con el depurador:
+
+Coloca un breakpoint en el primer push_back.
+En Memory 1 escribe la dirección que muestra v.data() y observa cómo cambian
+los datos en memoria con cada push_back.
+Observa qué pasa cuando la capacity se duplica: ¿Los datos anteriores siguen en
+la dirección vieja o se copiaron a la nueva?
+:::caution[📤 Bitácora]
+En tu bitácora de aprendizaje ve respondiendo las preguntas que te voy haciendo a lo largo de la actividad,
+así como tus propias reflexiones, dudas, hipótesis, análisis y conclusiones.
+:::
+
+### Actividad 05
+Vectores: copia vs referencia
+En la unidad anterior exploraste cómo se comportan los objetos al copiarlos.
+Ahora veamos qué ocurre con un vector.
+
+```cpp
+#include <iostream>
+#include <vector>
+using namespace std;
+
+void modificarPorValor(vector<int> vec) {
+    vec.push_back(999);
+    vec[0] = -1;
+    cout << "Dentro de modificarPorValor:" << endl;
+    cout << "  data: " << vec.data() << ", size: " << vec.size() << endl;
+}
+
+void modificarPorReferencia(vector<int>& vec) {
+    vec.push_back(999);
+    vec[0] = -1;
+    cout << "Dentro de modificarPorReferencia:" << endl;
+    cout << "  data: " << vec.data() << ", size: " << vec.size() << endl;
+}
+
+int main() {
+    vector<int> original = {10, 20, 30};
+    cout << "Original - data: " << original.data()
+         << ", size: " << original.size() << endl;
+
+    cout << "\n--- Paso por valor ---" << endl;
+    modificarPorValor(original);
+    cout << "Después de paso por valor:" << endl;
+    cout << "  original[0] = " << original[0]
+         << ", size: " << original.size() << endl;
+
+    cout << "\n--- Paso por referencia ---" << endl;
+    modificarPorReferencia(original);
+    cout << "Después de paso por referencia:" << endl;
+    cout << "  original[0] = " << original[0]
+         << ", size: " << original.size() << endl;
+
+    return 0;
+}
+```
+
+Predicción: antes de ejecutar, predice qué ocurrirá con original después de
+cada llamada. ¿Cambiará original[0]? ¿Cambiará su size?
+Ejecuta y verifica.
+Responde estas preguntas:
+
+¿Qué ocurre con los datos del vector cuando lo pasas por valor? ¿Se copian los datos
+internos o se comparten?
+¿Qué consecuencia tiene en rendimiento pasar un vector grande por valor?
+Compara este comportamiento con lo que ocurría al copiar objetos simples (como la
+clase Punto) en la Unidad 3. ¿Es consistente?
+¿Cuándo usarías paso por valor y cuándo por referencia para vectores?
+:::caution[📤 Bitácora]
+En tu bitácora de aprendizaje ve respondiendo las preguntas que te voy haciendo a lo largo de la actividad,
+así como tus propias reflexiones, dudas, hipótesis, análisis y conclusiones.
+:::
+
+### Actividad 06
+Lista enlazada: gestión manual de nodos en memoria
+Ahora vamos a construir una estructura donde tú gestionas cada nodo de manera
+manual. Esto te ayudará a entender cómo funcionan internamente muchas estructuras
+de datos y reforzará tu dominio de punteros y memoria dinámica.
+
+```cpp
+#include <iostream>
+using namespace std;
+
+struct Nodo {
+    int dato;
+    Nodo* siguiente;
+
+    Nodo(int _dato) : dato(_dato), siguiente(nullptr) {
+        cout << "Nodo creado con dato: " << dato
+             << " en dirección: " << this << endl;
+    }
+
+    ~Nodo() {
+        cout << "Nodo destruido con dato: " << dato << endl;
+    }
+};
+
+int main() {
+    // Crear tres nodos en el heap
+    Nodo* primero = new Nodo(10);
+    Nodo* segundo = new Nodo(20);
+    Nodo* tercero = new Nodo(30);
+
+    // Enlazarlos
+    primero->siguiente = segundo;
+    segundo->siguiente = tercero;
+    // tercero->siguiente ya es nullptr (fin de la lista)
+
+    // Recorrer la lista
+    cout << "\nRecorriendo la lista:" << endl;
+    Nodo* actual = primero;
+    while (actual != nullptr) {
+        cout << "Dato: " << actual->dato
+             << " | Dirección del nodo: " << actual
+             << " | Siguiente: " << actual->siguiente << endl;
+        actual = actual->siguiente;
+    }
+
+    // Inspecciona con el depurador:
+    // - ¿Dónde están primero, segundo, tercero (los punteros)?
+    // - ¿Dónde están los nodos a los que apuntan?
+    // - En Memory 1, escribe la dirección de primero y observa
+    //   el campo 'dato' y el campo 'siguiente' en memoria.
+
+    // Liberar memoria
+    delete primero;
+    delete segundo;
+    delete tercero;
+
+    return 0;
+}
+```
+
+Coloca breakpoints después de enlazar los nodos.
+En el depurador, inspecciona primero, segundo y tercero. Observa las
+direcciones y cómo cada nodo "apunta" al siguiente.
+En Memory 1, escribe primero y observa los bytes. Identifica dónde
+termina el campo dato y dónde comienza el campo siguiente.
+Responde estas preguntas:
+
+¿Los nodos están contiguos en memoria como un arreglo? ¿Por qué sí o por qué no?
+¿Qué ventaja tiene una lista enlazada sobre un arreglo para insertar un elemento
+en el medio? ¿Y qué desventaja tiene para acceder al elemento en la posición i?
+¿Qué sucedería si asignas segundo = nullptr; sin haber hecho delete segundo;?
+¿Y si haces delete segundo; pero luego intentas acceder a primero->siguiente->dato?
+Dibuja en tu bitácora un diagrama de la lista enlazada mostrando las direcciones
+de memoria reales que observaste en el depurador.
+:::caution[📤 Bitácora]
+En tu bitácora de aprendizaje ve respondiendo las preguntas que te voy haciendo a lo largo de la actividad,
+así como tus propias reflexiones, dudas, hipótesis, análisis y conclusiones.
+:::
+
+### Actividad 07
+Auditoría de código generado por IA
+En esta actividad vas a experimentar con algo que ocurrirá constantemente en tu
+vida profesional: revisar y corregir código generado por una IA.
+
+La siguiente clase fue generada por una IA a quien se le pidió: "Crea una clase
+en C++ que implemente una lista dinámica de enteros con operaciones de agregar,
+insertar en posición, eliminar y buscar."
+
+La IA generó este código. Tu trabajo es encontrar los problemas.
+
+```cpp
+#include <iostream>
+using namespace std;
+
+class ListaDinamica {
+public:
+    int* datos;
+    int tam;
+    int capacidad;
+
+    ListaDinamica(int capInicial = 4) {
+        capacidad = capInicial;
+        tam = 0;
+        datos = new int[capacidad];
+        cout << "Lista creada. Capacidad: " << capacidad << endl;
+    }
+
+    void agregar(int valor) {
+        if (tam == capacidad) {
+            capacidad *= 2;
+            int* nuevo = new int[capacidad];
+            for (int i = 0; i < tam; i++) {
+                nuevo[i] = datos[i];
+            }
+            datos = nuevo;
+            cout << "Redimensionada. Nueva capacidad: " << capacidad << endl;
+        }
+        datos[tam] = valor;
+        tam++;
+    }
+
+    void insertarEn(int posicion, int valor) {
+        if (tam == capacidad) {
+            capacidad *= 2;
+            int* nuevo = new int[capacidad];
+            for (int i = 0; i < tam; i++) {
+                nuevo[i] = datos[i];
+            }
+            delete[] datos;
+            datos = nuevo;
+        }
+        for (int i = tam; i > posicion; i--) {
+            datos[i] = datos[i - 1];
+        }
+        datos[posicion] = valor;
+        tam++;
+    }
+
+    int buscar(int valor) {
+        for (int i = 0; i < tam; i++) {
+            if (datos[i] == valor) return i;
+        }
+        return -1;
+    }
+
+    void eliminar(int posicion) {
+        for (int i = posicion; i < tam - 1; i++) {
+            datos[i] = datos[i + 1];
+        }
+        tam--;
+    }
+
+    void imprimir() {
+        cout << "[";
+        for (int i = 0; i < tam; i++) {
+            cout << datos[i];
+            if (i < tam - 1) cout << ", ";
+        }
+        cout << "] (size: " << tam << ", cap: " << capacidad << ")" << endl;
+    }
+};
+
+int main() {
+    ListaDinamica lista;
+    lista.agregar(10);
+    lista.agregar(20);
+    lista.agregar(30);
+    lista.imprimir();
+
+    lista.insertarEn(1, 15);
+    lista.imprimir();
+
+    lista.eliminar(2);
+    lista.imprimir();
+
+    // ¿Qué pasa aquí?
+    ListaDinamica copia = lista;
+    copia.agregar(999);
+    copia.imprimir();
+    lista.imprimir();
+
+    return 0;
+}
+```
+
+Tu tarea como auditor:
+
+Compila y ejecuta el programa. ¿Funciona correctamente? ¿Produce algún error al finalizar?
+Identifica al menos 3 errores o problemas en el código. Para cada uno:
+¿Cuál es el error?
+¿En qué línea(s) está?
+¿Por qué es un problema? Explica el mecanismo en memoria.
+¿Cuál es su consecuencia (memory leak, crash, undefined behavior)?
+Usa el depurador para evidenciar los problemas. Capturas de pantalla en la bitácora.
+Compara el método agregar con insertarEn: uno tiene un bug que el otro no. Encuéntralo.
+Propón una versión corregida de la clase ListaDinamica. Justifica cada cambio.
+:::caution[📤 Bitácora]
+En tu bitácora de aprendizaje documenta todo el proceso de auditoría: los errores encontrados,
+las evidencias del depurador, y tu solución corregida con justificación.
+:::
+
+###  Actividad integradora de investigación
+
+:::caution[📤 Bitácora - Actividad integradora de investigación]
+
+Objetivo: consolidar tu comprensión de las estructuras de datos y su
+gestión en memoria mediante un análisis integral.
+
+Instrucciones:
+
+Considera el siguiente programa que combina varios de los conceptos que
+exploraste en las actividades anteriores.
+
+```cpp
+#include <iostream>
+#include <vector>
+using namespace std;
+
+struct Jugador {
+    string nombre;
+    int* puntajes;
+    int numPuntajes;
+
+    Jugador(string n, int num) : nombre(n), numPuntajes(num) {
+        puntajes = new int[numPuntajes];
+        for (int i = 0; i < numPuntajes; i++) {
+            puntajes[i] = 0;
+        }
+    }
+
+    ~Jugador() {
+        delete[] puntajes;
+    }
+
+    void setPuntaje(int indice, int valor) {
+        puntajes[indice] = valor;
+    }
+
+    void imprimir() {
+        cout << nombre << ": [";
+        for (int i = 0; i < numPuntajes; i++) {
+            cout << puntajes[i];
+            if (i < numPuntajes - 1) cout << ", ";
+        }
+        cout << "]" << endl;
+    }
+};
+
+int main() {
+    vector<Jugador> equipo;
+
+    equipo.push_back(Jugador("Ana", 3));
+    equipo.push_back(Jugador("Luis", 3));
+
+    equipo[0].setPuntaje(0, 100);
+    equipo[0].setPuntaje(1, 85);
+    equipo[1].setPuntaje(0, 90);
+
+    cout << "Equipo:" << endl;
+    for (int i = 0; i < (int)equipo.size(); i++) {
+        equipo[i].imprimir();
+    }
+
+    return 0;
+}
+```
+
+Tu Tarea:
+
+A. Predicción (sin ejecutar el código):
+
+¿Crees que este programa funcionará correctamente? Justifica.
+Dibuja un mapa de memoria del programa después de ejecutar los push_back.
+Indica dónde están los objetos Jugador, dónde están los arreglos de puntajes
+y dónde está el buffer interno del vector.
+B. Verificación y análisis (usando el depurador):
+
+Compila y ejecuta. ¿Qué ocurre? Si hay problemas, explica por qué ocurren.
+Pista: piensa en qué pasa cuando el vector necesita redimensionarse y copia
+los objetos Jugador.
+Usa el depurador para evidenciar el problema. Capturas de pantalla.
+Explica la relación entre este problema y lo que aprendiste sobre copia
+de objetos en la Unidad 3 (clase Personaje).
+Propón una solución y explica por qué funciona.
+:::
+
+## Apply 🛠
+
+
+### Actividad de aplicación
+:::caution[📤 Bitácora - Actividad de aplicación]
+
+Contexto:
+
+Trabajas en un estudio de videojuegos y te han encargado implementar el sistema
+de inventario para un RPG. Cada personaje del juego tiene un inventario que
+puede contener objetos (items). Los items tienen un nombre y un peso. El
+inventario tiene una capacidad máxima de peso y debe poder agregar items,
+eliminar items por nombre y mostrar el contenido.
+
+Un compañero de equipo (o una IA) generó un primer prototipo, pero el equipo
+de QA reporta crashes aleatorios cuando los personajes intercambian inventarios
+o cuando se copian personajes para guardar partidas.
+
+Tu tarea:
+
+Diseña e implementa las clases Item, Inventario y Personaje
+desde cero, aplicando lo aprendido en esta unidad y la anterior.
+
+Requisitos mínimos:
+
+Un Item tiene un nombre (string) y un peso (float).
+Un Inventario almacena items usando un arreglo dinámico gestionado
+manualmente (no uses std::vector para los items; este es el reto).
+Debe poder crecer cuando se llene.
+Un Inventario tiene una capacidad máxima de peso (pesoMaximo).
+Inventario debe tener métodos para: agregarItem, eliminarItemPorNombre,
+pesoActual, imprimir.
+Un Personaje tiene un nombre y un Inventario.
+La clase debe funcionar correctamente al copiar personajes (por ejemplo,
+para guardar una partida). No debe haber double-free ni memory leaks.
+Escribe un programa de prueba en main() que demuestre:
+
+Agregar items a un inventario.
+Intentar agregar un item que exceda la capacidad de peso.
+Eliminar un item por nombre.
+Copiar un personaje y modificar la copia sin afectar al original.
+Mostrar el inventario antes y después de cada operación.
+Evidencia en el depurador: incluye capturas de pantalla mostrando:
+
+Dónde están los objetos en memoria (stack vs heap).
+Que al copiar un personaje, los datos del inventario son independientes.
+Construye tu programa PASO A PASO mediante pruebas. Indica qué
+característica vas a implementar en cada paso y cómo la probaste antes de
+pasar a la siguiente.
+
+:::
+
+
+## Reflect 🤔
+
+### Actividad de reflexión
+
+El objetivo de esta actividad es que recuperes de tu memoria los conceptos fundamentales
+sobre estructuras de datos en C++ que exploraste en esta unidad. Al forzarte a recordar
+sin ver tus notas o buscar información (práctica de recuperación), estás fortaleciendo
+las conexiones neuronales de ese conocimiento.
+
+:::caution[📤 Bitácora]
+
+IMPORTANTE: Responde todas las preguntas sin consultar tus apuntes, código previo,
+internet o herramientas de IA. La meta es el esfuerzo por recordar y aplicar,
+no la perfección.
+
+Parte 1: recuperación de conocimiento (Retrieval Practice)
+
+Explica con tus propias palabras la diferencia entre un arreglo estático (en el stack)
+y un arreglo dinámico (en el heap). ¿Cuándo usarías cada uno?
+
+¿Qué es std::vector internamente? Describe qué ocurre en memoria cuando llamas a
+push_back y el vector ya está lleno. ¿Qué pasa con la dirección de los datos?
+
+¿Qué ocurre cuando pasas un arreglo a una función en C++? ¿Es paso por valor o algo
+diferente? ¿Y qué ocurre cuando pasas un std::vector por valor?
+
+Describe la estructura de una lista enlazada. ¿Qué ventajas tiene sobre un arreglo?
+¿Qué desventajas? ¿Dónde se almacenan los nodos normalmente?
+
+Explica qué es un memory leak y qué es un double-free. Da un ejemplo
+con pseudocódigo de cómo ocurriría cada uno.
+
+Parte 2: transferencia y análisis de situación nueva
+
+Imagina que estás desarrollando un sistema de partículas para un efecto visual
+en un videojuego. Cada frame se crean y destruyen cientos de partículas. Un colega
+te propone este diseño:
+
+```cpp
+#include <iostream>
+using namespace std;
+
+struct Particula {
+    float x, y;
+    float vx, vy;
+    int vida;
+};
+
+class SistemaParticulas {
+public:
+    Particula** particulas;
+    int cantidad;
+    int capacidad;
+
+    SistemaParticulas(int cap) : capacidad(cap), cantidad(0) {
+        particulas = new Particula*[capacidad];
+    }
+
+    void agregar(float x, float y) {
+        if (cantidad < capacidad) {
+            particulas[cantidad] = new Particula{x, y, 0, -1, 60};
+            cantidad++;
+        }
+    }
+
+    void eliminarMuertas() {
+        for (int i = 0; i < cantidad; i++) {
+            if (particulas[i]->vida <= 0) {
+                delete particulas[i];
+                particulas[i] = particulas[cantidad - 1];
+                cantidad--;
+                i--;
+            }
+        }
+    }
+
+    void actualizar() {
+        for (int i = 0; i < cantidad; i++) {
+            particulas[i]->x += particulas[i]->vx;
+            particulas[i]->y += particulas[i]->vy;
+            particulas[i]->vida--;
+        }
+    }
+};
+
+int main() {
+    SistemaParticulas sp(1000);
+    for (int frame = 0; frame < 120; frame++) {
+        sp.agregar(400, 300);
+        sp.agregar(400, 300);
+        sp.actualizar();
+        sp.eliminarMuertas();
+    }
+    return 0;
+}
+```
+Análisis de problemas: identifica al menos dos problemas en este código
+relacionados con la gestión de memoria. Explica por qué cada uno es problemático.
+
+Análisis del diseño: ¿Por qué el colega usó un arreglo de punteros
+(Particula**) en vez de un arreglo de objetos (Particula*)? ¿Tiene sentido?
+¿Qué implicaciones tiene en rendimiento?
+
+Propuesta de mejora: ¿Cómo rediseñarías este sistema de partículas
+para que sea más eficiente en memoria y más seguro? Describe tu propuesta
+y justifica cada decisión.
+
+Parte 3: reflexión metacognitiva
+
+De los conceptos explorados en esta unidad (arreglos, vectores, listas enlazadas,
+gestión manual de memoria), ¿cuál te resultó más difícil de entender? ¿Por qué crees
+que fue así?
+
+Cuando auditaste el código generado por IA en la Actividad 07, ¿Qué tipos de
+errores encontraste que la IA cometió? ¿Qué conocimiento necesitaste para poder
+detectarlos? ¿Crees que podrías haber encontrado esos errores sin haber estudiado
+cómo funciona la memoria en C++?
+
+Si tuvieras que explicar a alguien por qué un desarrollador de videojuegos
+necesita entender estructuras de datos a nivel de memoria (y no solo usar las que
+ofrece la biblioteca estándar), ¿qué le dirías en máximo 3 oraciones?
+:::
