@@ -71,7 +71,7 @@ encapsulamiento, herencia y polimorfismo. Usarás el depurador como microscopio
 para observar cómo se organizan los objetos en memoria, qué es la _vtable_ y
 cómo el programa decide en tiempo de ejecución qué versión de un método ejecutar.
 Al final, construirás tus propias extensiones al caso de estudio y demostrarás,
-con evidencias del depurador, que comprendes —y eres responsable de— el código
+con evidencias del depurador, que comprendes y eres responsable del código
 que pones en producción.
 
 ## Seek: Investigación 🔎
@@ -180,7 +180,7 @@ explica por qué lo es.
 
 **Herencia:**
 - ¿Cómo se evidencia la herencia en la clase `Circulo`?
-- Un objeto de tipo `Circulo`, además de `Radio`, ¿qué otros datos almacena
+- Un objeto de tipo `Circulo`, además de `Radio`, ¿Qué otros datos almacena
 en su interior gracias a la herencia?
 
 **Polimorfismo:**
@@ -204,14 +204,14 @@ esos tres datos en la memoria del computador para formar un solo objeto?
 ¿Cómo decide el programa, mientras se está ejecutando, si debe llamar al
 `Dibujar` del `Circulo` o al del `Rectangulo`? Lanza algunas ideas o
 hipótesis.
-3. **La barrera del encapsulamiento**: ¿cómo crees que el compilador logra
+3. **La barrera del encapsulamiento**: ¿Cómo crees que el compilador logra
 que no puedas acceder a un miembro `private` desde fuera de la clase?
 ¿Es algo que se revisa cuando escribes el código, o es una protección que
 existe mientras el programa se ejecuta? ¿Por qué piensas eso?
 
 **Parte 4: reflexión y preparación**
 
-Has completado el diagnóstico. Reflexiona: ¿en qué conceptos te sientes
+Has completado el diagnóstico. Reflexiona: ¿En qué conceptos te sientes
 más seguro y cuáles te generan más preguntas? Anota tus dudas y tus hipótesis
 en la bitácora; serán tu brújula para las actividades que siguen.
 
@@ -525,7 +525,7 @@ Ahora te guiaré en el análisis del caso de estudio. Vamos a redescubrir
 los conceptos de OOP desde la experimentación y el depurador.
 
 **Concepto de objeto**: en la OOP, un objeto es una instancia de una clase.
-Pero ¿cómo se ve un objeto en la memoria?
+Pero ¿Cómo se ve un objeto en la memoria?
 
 Usa el depurador para encontrar la instancia de la clase `ofApp`. Recuerda
 que el objeto solo estará en memoria mientras la aplicación esté corriendo.
@@ -549,7 +549,7 @@ private:
 };
 ```
 
-🧐🧪✍️ Antes de ejecutar el experimento: ¿qué esperas ver en memoria
+🧐🧪✍️ Antes de ejecutar el experimento: ¿Qué esperas ver en memoria
 (hipótesis)? Ejecuta el código, abre el depurador y captura el objeto
 `ofApp` en memoria. ¿Qué puedes observar? ¿Qué información te proporciona
 el depurador? ¿Qué puedes concluir?
@@ -840,6 +840,11 @@ La aplicación funcional no se evalúa directamente. Es la base sobre la cual
 demostrarás tu comprensión en la Fase 2.
 :::
 
+:::tip[Código de la aplicación funcional]
+Debes copiar el código de tu aplicación funcional en tu bitácora SIN COMENTARIOS. Solo el código. 
+Deberías incluir el código de ofApp.h y ofApp.cpp que permiten reproducir tu aplicación con las extensiones solicitadas.
+:::
+
 ---
 
 **Fase 2 — Evidencias de comprensión con el depurador**
@@ -848,13 +853,13 @@ demostrarás tu comprensión en la Fase 2.
 Para cada una de las evidencias a continuación, incluye **cuatro componentes**
 en tu bitácora:
 
-1. **Elección del punto de inspección**: ¿en qué parte del código detuviste
+1. **Elección del punto de inspección**: ¿En qué parte del código detuviste
 la ejecución y por qué elegiste ese punto? La elección del breakpoint es
 parte del pensamiento crítico y se evalúa.
 2. **Captura de pantalla del depurador**: la imagen de lo que se observa.
-3. **Explicación**: ¿qué variables, valores o estructuras se están observando
+3. **Explicación**: ¿Qué variables, valores o estructuras se están observando
 en la imagen?
-4. **Justificación**: ¿cómo demuestra esta captura comprensión del concepto
+4. **Justificación**: ¿Cómo demuestra esta captura comprensión del concepto
 o patrón solicitado?
 :::
 
@@ -886,7 +891,7 @@ el de otro tipo.
 **Evidencia 4 — Encapsulamiento en el contexto de herencia**
 
 Demuestra con el depurador que comprendes el encapsulamiento en el contexto
-de tu jerarquía de herencia: ¿qué campos son visibles desde la subclase
+de tu jerarquía de herencia: ¿Qué campos son visibles desde la subclase
 (protegidos/públicos) y cuáles no (privados)? ¿Cómo se refleja esto en la
 vista del depurador?
 
@@ -910,14 +915,14 @@ del vector cuando muere y la memoria se libera. Explica qué pasa en el
 **Evidencia 7 — Prueba de condición límite**
 
 Diseña y ejecuta un **escenario de prueba deliberado** para verificar una
-condición límite de tu implementación. Por ejemplo: ¿qué pasa cuando el
+condición límite de tu implementación. Por ejemplo: ¿Qué pasa cuando el
 vector de partículas se vacía completamente? ¿O cuando se crean muchas
 partículas al mismo tiempo? Tú decides qué condición quieres probar y por qué
 es relevante. Explica tu diseño del escenario de prueba, captura el depurador
 en el momento clave y justifica qué verificaste.
 
 :::caution[📤 Bitácora]
-Documenta las dos fases en tu bitácora: una descripción breve de las
+Documenta las dos fases en tu bitácora: el código yuna descripción breve de las
 extensiones implementadas (Fase 1) y las siete evidencias completas con
 sus cuatro componentes cada una (Fase 2).
 :::
