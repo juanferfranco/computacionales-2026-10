@@ -8,7 +8,7 @@ unitId: unit6
 En la unidad anterior profundizamos en los pilares de la OOP en C++ y aprendimos
 a ser responsables del código que ponemos en producción. En esta unidad daremos
 un paso más: no solo escribiremos código que funcione, sino código que esté bien
-*diseñado*. Exploraremos tres patrones de diseño —Observer, Factory y State— que
+*diseñado*. Exploraremos tres patrones de diseño: Observer, Factory y State, que
 son soluciones comprobadas a problemas recurrentes en software orientado a
 objetos. El hilo conductor es el mismo de la unidad anterior: **diseñar implica
 decidir con criterio**, y ser responsable del diseño significa poder justificar
@@ -65,7 +65,7 @@ $$
 
 ## Set: ¿Qué aprenderás en esta unidad? 💡
 
-Aprenderás tres patrones de diseño —Observer, Factory y State— que estructuran
+Aprenderás tres patrones de diseño: Observer, Factory y State, que estructuran
 cómo los objetos se comunican, se crean y cambian de comportamiento. Más
 importante aún, aprenderás a *justificar* por qué se usa cada patrón: qué
 problema resuelve, qué alternativa evita y qué consecuencia tiene en la
@@ -377,8 +377,8 @@ void ofApp::keyPressed(int key) {
 Antes de pasar a la siguiente actividad, documenta en tu bitácora:
 - ¿Qué observas en la aplicación al presionar las teclas `a`, `r`, `s`, `n`?
 - ¿Qué diferencias notas entre los tipos de partículas?
-- Formula una hipótesis: ¿cómo crees que el código organiza la comunicación
-  entre las teclas y las partículas? ¿y el cambio de comportamiento?
+- Formula una hipótesis: ¿Cómo crees que el código organiza la comunicación
+  entre las teclas, las partículas y el cambio de comportamiento?
 :::
 
 ---
@@ -404,7 +404,7 @@ Para cada punto de inspección incluye en tu bitácora **cuatro componentes**:
 **Investigación del patrón Observer**
 
 🧐🧪✍️ Coloca un breakpoint dentro de `Subject::notify`. Cuando se dispare al
-presionar una tecla, observa en el depurador el vector `observers`: ¿cuántos
+presionar una tecla, observa en el depurador el vector `observers`: ¿Cuántos
 elementos tiene? ¿Qué tipo de objetos son? ¿A qué direcciones de memoria
 apuntan?
 
@@ -416,7 +416,7 @@ cómo el `Subject` sabe a quién notificar?
 **Investigación del patrón State**
 
 🧐🧪✍️ Coloca un breakpoint en `Particle::setState`. Observa en memoria el
-puntero `state` antes y después de la asignación: ¿qué dirección tenía? ¿qué
+puntero `state` antes y después de la asignación: ¿Qué dirección tenía? ¿Qué
 dirección tiene ahora? ¿qué le pasó al objeto de estado anterior?
 
 🧐🧪✍️ En la unidad anterior estudiaste la `_vtable` y el despacho dinámico.
@@ -445,7 +445,7 @@ Factory), cada uno con sus cuatro componentes.
 #### Mapa conceptual de arquitectura
 
 :::note[Enunciado]
-Los tres patrones no trabajan de forma aislada en este caso de estudio;
+Los tres patrones no trabajan de forma aislada en este caso de estudio:
 colaboran. En esta actividad construirás un diagrama que muestre cómo fluye
 una acción del usuario desde el teclado hasta el cambio de comportamiento de
 cada partícula.
@@ -453,11 +453,11 @@ cada partícula.
 
 🧐🧪✍️ Usando <a href="https://excalidraw.com/">excalidraw</a>, dibuja un
 diagrama de flujo de mensajes que muestre la cadena completa:
-`keyPressed` → `notify` → `onNotify` → `setState` → nueva `_vtable` activa.
+`keyPressed` → `notify` → `onNotify` → `setState` → `nueva _vtable` activa.
 Indica en qué punto interviene cada patrón (Observer, State) y dónde la
 Factory ya cumplió su rol (en el `setup`).
 
-🧐🧪✍️ En el mismo diagrama, agrega una nota que responda: ¿qué pasaría si
+🧐🧪✍️ En el mismo diagrama, agrega una nota que responda: ¿Qué pasaría si
 *no* usaras el patrón Observer y en cambio `ofApp::update` recorriera todas
 las partículas y les dijera directamente qué estado tener? ¿Qué cambiaría en
 el diagrama? ¿Qué problema de diseño crearía eso?
@@ -566,7 +566,7 @@ siguientes gráficos:
 
 2. **State y la _vtable — conexión con la unidad anterior**: en la unidad 5
    estudiaste cómo la `_vtable` implementa el polimorfismo. Ahora conecta eso
-   con el patrón State. Cuando una partícula llama a `setState`, ¿cambia su
+   con el patrón State. Cuando una partícula llama a `setState`, ¿Cambia su
    `_vtable`? ¿Por qué sí o por qué no? Dibuja la respuesta.
 
 3. **¿Por qué estos patrones?**: para cada uno de los tres patrones, completa
@@ -577,7 +577,7 @@ siguientes gráficos:
 Reflexiona también sobre estas preguntas (no hay respuestas incorrectas):
 - ¿Qué decisión de diseño de esta unidad cambiarías ahora que la entiendes
   mejor?
-- ¿En qué otro contexto —un juego, una app, un sistema que conozcas— usarías
+- ¿En qué otro contexto, un juego, una app, un sistema que conozcas, usarías
   alguno de estos tres patrones?
 - ¿Qué pregunta de la sustentación te costó más responder, y por qué crees
   que fue así?
