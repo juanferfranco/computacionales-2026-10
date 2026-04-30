@@ -15,49 +15,25 @@ el principal desafío: gestionar de forma segura los datos compartidos entre hil
 evitar errores. Utilizaremos proyectos ejemplo y analizaremos ejemplos 
 funcionales para entender estos conceptos de forma práctica.
 
-## Rúbrica de evaluación de la unidad 📝
+## Evaluación de la unidad 📝
 
 :::note[Transparencia]
-Esta rúbrica se socializa antes de la sustentación. La sustentación se basa en
-lo presentado en la aplicación y lo documentado en la bitácora.
+En esta unidad se mantiene el trabajo por fases (set, seek y apply) como ruta
+pedagógica, pero la **única evaluación calificable** es la **sustentación
+final** al cierre de la Actividad 05.
 :::
 
-### Requisito de salida (condición necesaria)
+### Condiciones para presentar la sustentación
 
-:::caution[Para poder cerrar la evaluación y registrar la nota]
-La **bitácora de reflexión** debe estar diligenciada antes de terminar la
-sesión y debe ser enseñada al profesor antes de abandonar el aula. La
-presentación de la bitácora de reflexión es un requisito indispensable para
-montar la nota final en la plataforma académica. Si no se cumple este
-requisito, la nota final de la unidad será 0.0.
+:::caution[Requisito de entrada a la evaluación]
+Para poder presentar la sustentación debes completar las actividades 1 a 5. La 
+actividad 6 la realizarás una vez presentes la sustentación. Recuerda que el 
+propósito de la actividad 6 es la consolidación del aprendizaje mediante un 
+ejercicio de práctica de recuperación (retrieval practice).
 :::
 
----
-
-### Rúbrica analítica
-
-:::tip[Evidencias evaluadas]
-1) Evidencias de análisis en bitácora: **elección justificada del punto de
-inspección + captura + explicación + justificación**, apoyadas cuando aplique
-por mediciones o pruebas comparativas.  
-2) Sustentación a partir de la app y la bitácora.
-:::
-
-| Criterio (peso) | Cumple plenamente (5.0) | Se cumple medianamente (4.0) | Problemas importantes (3.0) | Falta comprensión básica (2.0) | No hay evidencia (0.0) |
-|---|---|---|---|---|---|
-| **1. Evidencias de análisis de concurrencia y paralelismo (40%)** | Presenta todas las evidencias solicitadas. El **punto de inspección elegido** es pertinente y revelador. Cada evidencia incluye **captura, explicación y justificación** claras, y cuando corresponde incorpora mediciones o comparaciones entre versiones. Explica con precisión qué se observa, qué riesgo de sincronización existe o qué comportamiento de rendimiento se está demostrando, y por qué eso constituye evidencia de comprensión de hilos, locks, condiciones de carrera, responsividad o speedup. | Evidencias presentes con vacíos menores en la elección del punto de inspección, en la precisión de la explicación o en la justificación de lo observado. | Faltan evidencias clave o los puntos de inspección elegidos no son informativos. El análisis se limita a describir “qué hizo” sin demostrar comprensión de concurrencia, sincronización o rendimiento. | Las capturas, pruebas o mediciones no corresponden a lo solicitado o carecen de explicación y justificación técnica. No hay prueba de análisis. | No se entregaron evidencias o no se puede acceder a ellas. |
-| Evaluación |||||| 
-| **2. Sustentación (60%)** | Responde con precisión conectando el comportamiento visible de la app con el reparto del trabajo entre hilos, el acceso a memoria compartida, el papel de `lock()`/`unlock()` y las decisiones tomadas en su implementación. Reconoce límites, errores y posibles mejoras. | Respuestas correctas con algunas imprecisiones o justificación superficial. | Responde parcialmente y le cuesta conectar comportamiento, sincronización y rendimiento con su solución concreta. | No logra explicar de forma coherente cómo operan los hilos o por qué su solución funciona o falla. | No se entregaron evidencias o no se puede acceder a ellas. |
-| Evaluación |||||| 
-
----
-
-:::tip[Cálculo de la nota]
-
-$$
-Nota = C_1*0.4 + C_2*0.6
-$$
-
+:::tip[Nota de la unidad]
+Será la califación que obtengas en la sustentación
 :::
 
 ---
@@ -1525,22 +1501,15 @@ El ejemplo es bueno para ilustrar cómo mover una tarea completa a un hilo secun
 #### Aplicación: Julia set interactivo
 
 :::note[🎯 Enunciado]
-Es hora de aplicar lo aprendido sobre paralelismo. Tomarás el código funcional del fractal de Mandelbrot que estudiante (¿Cierto?) y lo modificarás para calcular y visualizar el **conjunto de Julia**. Harás que la constante `k` que define el fractal de Julia dependa de la posición del mouse, creando un explorador interactivo. El cálculo seguirá siendo paralelo.
+Es hora de aplicar lo aprendido sobre paralelismo. Tomarás el código funcional del fractal de Mandelbrot que estudiante (¿Cierto?) y lo modificarás para 
+calcular y visualizar el **conjunto de Julia**. Harás que la constante `k` que define el fractal de Julia dependa de la posición del mouse, creando un 
+explorador interactivo. El cálculo seguirá siendo paralelo.
 :::
 
 ![Julia set](../../../assets/JuliaSet.png)
 
-**Fase 1 — Requisito de entrada: aplicación funcional**
 
-:::caution[La aplicación funcional es el boleto de entrada, no la evidencia evaluada]
-Debes tener una app funcional que calcule y visualice el conjunto de Julia en
-paralelo, con una constante `k` controlada por la posición del mouse.
-
-Puedes usar IA generativa para apoyar la implementación, pero en esta unidad lo
-fundamental es que puedas **verificar, inspeccionar y explicar** lo que hace tu
-programa. Haber generado código no es suficiente; debes poder defender con
-evidencias cómo funciona.
-:::
+Te recomiendo seguir estos pasos:
 
 1. Crea un nuevo proyecto de openFrameworks y copia el código de Mandelbrot en su versión paralela.  
 2. Modifica la lógica de cálculo:
@@ -1583,60 +1552,9 @@ evidencias cómo funciona.
 6.  ¿Encontraste algún desafío particular al implementar la interacción o modificar el cálculo?  
 :::
 
-**Fase 2 — Evidencias de comprensión**
-
-:::tip[Cómo presentar cada evidencia]
-Para cada evidencia incluye los **cuatro componentes**:
-1. **Elección justificada del punto de inspección**: ¿En qué línea, variable,
-   estructura o momento del programa decidiste inspeccionar y por qué ese punto
-   es revelador?
-2. **Captura**: imagen del depurador, consola, visualización o medición donde
-   se observe la evidencia.
-3. **Explicación**: ¿Qué se está observando exactamente?
-4. **Justificación**: ¿Por qué esa evidencia demuestra comprensión real del
-   funcionamiento del programa?
-:::
-
-Entrega las siguientes **4 evidencias**, cada una con sus cuatro componentes:
-
-**Evidencia 1 — Reparto del trabajo entre hilos**
-
-Demuestra cómo está distribuido el cálculo de Julia entre los hilos. Tu
-evidencia debe permitir ver qué parte del trabajo ejecuta cada hilo o cómo se
-dividen las filas, bloques o tareas del fractal.
-
-**Evidencia 2 — Responsividad vs cálculo pesado**
-
-Demuestra, con un punto de inspección pertinente, por qué la aplicación puede
-seguir respondiendo mientras el cálculo ocurre o por qué se recalcula sin
-bloquearse como en una versión secuencial en el hilo principal.
-
-**Evidencia 3 — Decisión de sincronización o coordinación**
-
-Elige una decisión concreta de tu implementación relacionada con memoria
-compartida, actualización de `juliaK`, escritura de resultados o coordinación
-entre hilos. Demuestra qué podría salir mal y cómo tu solución lo evita o lo
-controla.
-
-**Evidencia 4 — Resultado observado y explicación técnica**
-
-Elige un cambio visible en la app al mover el mouse y explica técnicamente cómo
-viaja esa decisión desde la entrada del usuario hasta el recálculo y la imagen
-final del fractal.
-
-
-:::caution[La aplicación funcional sigue siendo el boleto de entrada]
-En esta unidad, tener la aplicación funcionando es condición necesaria para
-poder presentar la sustentación, pero **el código no es el objeto principal de
-evaluación**. La evaluación se centra en la compresión de los conceptos fundamentales 
-de la unidad y en la manera como estos se aplican en las actividades y en el problema 
-de aplicación. En época de IA generativa la sustentación se 
-basa en tu capacidad para defender, explicar, argumentar y probar.
-:::
-
 :::caution[📤 Bitácora]
-Documenta las dos fases: el código funcional breve (Fase 1) y las cuatro
-evidencias completas con sus cuatro componentes (Fase 2).
+Documenta todos tu proceso en la bitácora de aprendizaje y analiza la implementación. 
+Te recomiendo que uses IA para que te ayude a autoevaluar los conceptos aplicados.
 :::
 
 ## Reflect: Consolidación y metacognición 🤔
@@ -1644,8 +1562,7 @@ evidencias completas con sus cuatro componentes (Fase 2).
 ### Actividad 06
 
 :::note[Esta sección se realiza después de la evaluación]
-Esta sección se realiza después de cerrada la evaluación, como ejercicio de
-consolidación. No forma parte de la rúbrica.
+Esta sección se realiza después de cerrada la sustentación como un ejercicio de consolidación.
 :::
 
 Usando [excalidraw](https://excalidraw.com/), construye estos gráficos:
